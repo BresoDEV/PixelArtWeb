@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        background-color: white;
+    }
+
+    .divv {
+        background-color: aqua;
+        display: block;
+        margin: 0;
+        padding: 0;
+        border: 1px solid rgb(0, 0, 0);
+        padding-bottom: 15px;
+        width: 60%;
+    }
+
+    .bloco {
+        width: 20px;
+        height: 20px;
+        border: 1px solid rgb(0, 0, 0);
+        margin: 0;
+        margin-bottom: -6px;
+        margin-right: -1px;
+        padding: 0;
+        word-spacing: 0;
+        background-color: rgb(255, 255, 255);
+    }
+</style>
+
+<body>
+
+    <center>
+        <input type="color" name="" id="cor">
+        <button id="btpintarRapido">pintar Rapido</button>
+        <button id="btremovBorda">removBorda</button>
+        <button id="btpreservarCores">preservarCores</button>
+    </center>
+    <br>
+    <center>
+        <div class="divv" id="tab">
+            <script>
+
+                //======================
+
+                for (let index = 0; index < 500; index++) {
+                    if (index % 25 === 0)
+                        document.write('<br>');
+                    document.write('<img class="bloco">');
+                }
+
+                //==========================]
+
+                var pintarRapido = false;
+                var pintarRapido2 = false;
+                var removBorda = false;
+                var preservarCores = false;
+                var n = 40;
+
+                setInterval(() => {
+                    if (pintarRapido) {
+                        document.getElementById('btpintarRapido').style.backgroundColor = 'green'
+                    }
+                    else {
+                        document.getElementById('btpintarRapido').style.backgroundColor = 'gray'
+                        document.getElementById('btpintarRapido').style.color = 'white'
+                    }
+
+                    if (removBorda) {
+                        document.getElementById('btremovBorda').style.backgroundColor = 'green'
+                    }
+                    else {
+                        document.getElementById('btremovBorda').style.backgroundColor = 'gray'
+                        document.getElementById('btremovBorda').style.color = 'white'
+                    }
+
+                    if (preservarCores) {
+                        document.getElementById('btpreservarCores').style.backgroundColor = 'green'
+                    }
+                    else {
+                        document.getElementById('btpreservarCores').style.backgroundColor = 'gray'
+                        document.getElementById('btpreservarCores').style.color = 'white'
+                    }
+                }, 1);
+
+
+                document.getElementById('btremovBorda').addEventListener('click', () => {
+                    if (removBorda) {
+                        var tds = document.querySelectorAll('img');
+                        tds.forEach(e => {
+                            e.style.border = '1px solid black'
+                        });
+                        document.getElementById('tab').style.border = '1px solid black'
+                        removBorda = false;
+                    }
+                    else {
+                        var tds = document.querySelectorAll('img');
+                        tds.forEach(e => {
+                            e.style.border = 'none'
+                        });
+                        document.getElementById('tab').style.border = 'none'
+
+                        removBorda = true
+                    }
+
+                });
+                document.getElementById('btpreservarCores').addEventListener('click', () => {
+                    preservarCores = !preservarCores;
+                });
+                document.getElementById('btpintarRapido').addEventListener('click', () => {
+                    pintarRapido = !pintarRapido;
+                });
+                document.getElementById('tab').addEventListener('click', () => {
+                    if (pintarRapido) { pintarRapido2 = !pintarRapido2; }
+                });
+
+
+                var tds = document.querySelectorAll('img');
+                tds.forEach(e => {
+
+                    e.addEventListener('mouseover', () => {
+                        if (pintarRapido && pintarRapido2) {
+                            if (preservarCores) {
+                                var cor = window.getComputedStyle(e).getPropertyValue('background-color');
+                                cor = cor.replace(/\s/g, '').toLowerCase()
+
+                                
+                                if (cor === 'rgb(255,255,255)') {
+                                    e.style.backgroundColor = document.getElementById('cor').value
+                                }
+                            }
+                            else {
+                                e.style.backgroundColor = document.getElementById('cor').value
+
+                            }
+                        }
+
+                    });
+                    e.addEventListener('click', () => {
+                        if (preservarCores) {
+                            var cor = window.getComputedStyle(e).getPropertyValue('background-color');
+                            cor = cor.replace(/\s/g, '').toLowerCase()
+
+                            if (cor === 'rgb(255,255,255)') {
+                                e.style.backgroundColor = document.getElementById('cor').value
+                            }
+                        }
+                        else {
+                            e.style.backgroundColor = document.getElementById('cor').value
+
+                        }
+                    });
+                });
+            </script>
+        </div>
+    </center>
+</body>
+
+</html>
